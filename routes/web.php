@@ -20,8 +20,8 @@ Route::get('/', function () {
 
 Route::group(['namespace' => 'App\Http\Controllers'], function()
 {
-    Route::post('login/post', 'AuthController@login');
-    Route::post('logout/post', 'AuthController@logout');
+    Route::post('login/post', 'authController@login');
+    Route::post('logout/post', 'authController@logout');
     Route::group(['prefix' => 'dashboard'], function()
     {
         Route::get('/', 'dashboardController@index');
