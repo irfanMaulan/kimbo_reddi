@@ -6,15 +6,15 @@ use App\Service\AuthService;
 use Illuminate\Http\Request;
 use Laravel\Sanctum\PersonalAccessToken;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\RequestException;
-use Symfony\Component\HttpFoundation\Cookie;
+use GuzzleHttp\Exception\ClientException;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class authController extends Controller
 {
     public function Login(Request $request)
     {
-        try{
-            $client = new Client(['verify' => false]); // I deactivated ssl verification
+        $client = new Client();
+        try {
             $base_uri = env('API_URL') . '/user/login';
 
             $body = [
@@ -36,15 +36,55 @@ class authController extends Controller
             );
             $body = $response->getBody();
             $success =  json_decode((string) $body);
-            $akses_token = $success->data->access_token;
-            return redirect('dashboard')->withCookie('cookie_consent', $akses_token);
-        } catch (RequestException $e) {
-            $test = explode(" ",$e->getMessage());
-            if ($e->getCode() == 400) {
-                return redirect('/')->withInput()->with('failed', $e->getMessage());
+            $request->session()->put('role', $success->data->role);
+            $request->session()->put('usernames', );
+            $request->session()->put('token', $success->data->access_token);
+            return redirect('dashboard')->withCookie('cookie_consent', $success->data->access_token);
+        } catch (ClientException $e) {
+            $responseBody = $e->getResponse()->getBody(true);
+            $res = json_decode($responseBody);
+            // return $res->errors[0];
+            if ($res->code == 400) {
+                return redirect('/')->withInput()->with('failed', $res->errors[0]);
+            }elseif($res->code == 500){
+                return redirect('/')->withInput()->with('failed', "something went wrong");
+            }else{
+                return redirect('/')->withInput()->with('failed', "something went wrong");
             }
-
         }
+
+        // try{
+        //     $client = new Client(['verify' => false]); // I deactivated ssl verification
+        //     $base_uri = env('API_URL') . '/user/login';
+
+        //     $body = [
+        //         "username" => $request->username,
+        //         "password" => $request->password,
+        //     ];
+
+        //     $response = $client->request(
+        //         'POST',
+        //         $base_uri,
+        //         [
+        //             'headers' => [
+        //                 'content-type' => 'application/json',
+        //                 'accept' => 'application/ld+json',
+        //                 'Authorization' => 'Bearer'.session()->get('token.access_token')
+        //             ],
+        //             'body' => json_encode($body),
+        //         ]
+        //     );
+        //     $body = $response->getBody();
+        //     $success =  json_decode((string) $body);
+        //     $akses_token = $success->data->access_token;
+        //     return redirect('dashboard')->withCookie('cookie_consent', $akses_token);
+        // } catch (RequestException $e) {
+        //     $test = explode(" ",$e->getMessage());
+        //     if ($e->getCode() == 400) {
+        //         return redirect('/')->withInput()->with('failed', $e->getMessage());
+        //     }
+
+        // }
         // $http = new \GuzzleHttp\Client;
         // $api_url = env('API_URL');
 
@@ -94,8 +134,10 @@ class authController extends Controller
         // return redirect('dashboard')->withCookie('cookie_consent', $response);
     }
 
-    public function logout()
+    public function logout(Request $request)
     {
+        $request->session()->forget('role');
+
         return redirect('/')->withCookie(cookie('cookie_consent', '', -1));
     }
 }

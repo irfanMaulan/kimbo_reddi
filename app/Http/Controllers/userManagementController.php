@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
 
 class userManagementController extends Controller
 {
@@ -35,78 +36,88 @@ class userManagementController extends Controller
     {
         // return $request->all();
         $cekCookie = $request->cookie('cookie_consent');
-        $client = new Client(['verify' => false]); // I deactivated ssl verification
-        $base_uri = env('API_URL') . '/users';
-        $body = [
-            "name" => $request->name,
-            "username" => $request->username,
-            "password" => $request->password,
-            "role" => $request->role
-        ];
+        $client = new Client(); // I deactivated ssl verification
+        try{
+            $base_uri = env('API_URL') . '/users';
+            $body = [
+                "name" => $request->name,
+                "username" => $request->username,
+                "password" => $request->password,
+                "role" => $request->role
+            ];
 
-        $response = $client->request(
-            'POST',
-            $base_uri,
-            [
-                'headers' => [
-                    'content-type' => 'application/json',
-                    'accept' => 'application/ld+json',
-                    'Authorization' => 'Bearer ' . $cekCookie
-                ],
-                'body' => json_encode($body),
-            ]
-        );
-        $body = $response->getBody();
-        $success =  json_decode((string) $body);
-        // return $success;
-        if (isset($success->errors)) {
-            return redirect('/user-management')->withErrors($success->errors)->withInput()->with('failed', $success->errors[0]);
+            $response = $client->request(
+                'POST',
+                $base_uri,
+                [
+                    'headers' => [
+                        'content-type' => 'application/json',
+                        'accept' => 'application/ld+json',
+                        'Authorization' => 'Bearer ' . $cekCookie
+                    ],
+                    'body' => json_encode($body),
+                ]
+            );
+            $body = $response->getBody();
+            $success =  json_decode((string) $body);
+
+            return redirect('/user-management')->withInput()->with('success', $success->message);
+        }catch (ClientException $e) {
+            $responseBody = $e->getResponse()->getBody(true);
+            $res = json_decode($responseBody);
+            // return $res->errors[0];
+            if ($res->code == 400) {
+                return redirect('/user-management')->withInput()->with('failed', $res->errors[0]);
+            }elseif($res->code == 500){
+                return redirect('/user-management')->withInput()->with('failed', "something went wrong");
+            }else{
+                return redirect('/user-management')->withInput()->with('failed', "something went wrong");
+            }
         }
-
-        if ($success->code == 400) {
-            return redirect('/user-management')->withInput()->with('failed', $success->message);
-        }
-
-        return redirect('/user-management')->withInput()->with('success', $success->message);
         // var_dump(json_decode($response->getBody()->getContents()));
     }
 
     public function put(Request $request)
     {
         $cekCookie = $request->cookie('cookie_consent');
-        $client = new Client(['verify' => false]); // I deactivated ssl verification
-        $base_uri = env('API_URL') . '/users/'.$request->id;
-        $body = [
-            "name" => $request->name,
-            "username" => $request->username,
-            "password" => $request->password,
-            "role" => $request->role
-        ];
+        $client = new Client(); // I deactivated ssl verification
+        try{
+            $base_uri = env('API_URL') . '/users/'.$request->id;
+            $body = [
+                "name" => $request->name,
+                "username" => $request->username,
+                "password" => $request->password,
+                "role" => $request->role
+            ];
 
-        $response = $client->request(
-            'PATCH',
-            $base_uri,
-            [
-                'headers' => [
-                    'content-type' => 'application/json',
-                    'accept' => 'application/ld+json',
-                    'Authorization' => 'Bearer ' . $cekCookie
-                ],
-                'body' => json_encode($body),
-            ]
-        );
-        $body = $response->getBody();
-        $success =  json_decode((string) $body);
-        // return $success;
-        if (isset($success->errors)) {
-            return redirect('/user-management')->withErrors($success->errors)->withInput()->with('failed', $success->errors[0]);
+            $response = $client->request(
+                'PATCH',
+                $base_uri,
+                [
+                    'headers' => [
+                        'content-type' => 'application/json',
+                        'accept' => 'application/ld+json',
+                        'Authorization' => 'Bearer ' . $cekCookie
+                    ],
+                    'body' => json_encode($body),
+                ]
+            );
+            $body = $response->getBody();
+            $success =  json_decode((string) $body);
+
+            return redirect('/user-management')->withInput()->with('success', $success->message);
+        }catch (ClientException $e) {
+            $responseBody = $e->getResponse()->getBody(true);
+            $res = json_decode($responseBody);
+            // return $res->errors[0];
+            if ($res->code == 400) {
+                return redirect('/user-management')->withInput()->with('failed', $res->errors[0]);
+            }elseif($res->code == 500){
+                return redirect('/user-management')->withInput()->with('failed', "something went wrong");
+            }else{
+                return redirect('/user-management')->withInput()->with('failed', "something went wrong");
+            }
         }
-
-        if ($success->code == 400) {
-            return redirect('/user-management')->withInput()->with('failed', $success->message);
-        }
-
-        return redirect('/user-management')->withInput()->with('success', $success->message);
         // var_dump(json_decode($response->getBody()->getContents()));
     }
 

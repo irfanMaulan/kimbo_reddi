@@ -1,6 +1,17 @@
 @extends('page.template.master')
 @section('content')
 <br>
+@if (session('success'))
+    <div class="alert alert-success alert-dismissible fade show" id="success-notif" role="alert">
+        {{ session('success') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    </div>
+@elseif (session('failed'))
+    <div class="alert alert-danger alert-dismissible fade show" id="error-notif" role="alert">
+        {{ session('failed') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    </div>
+@endif
 <div class="card">
     <div class="card-header">
         <h3 class="card-title">Kode Uniq</h3>
@@ -154,7 +165,7 @@
                         <div class="col-md-3">Hadiah</div>
                         <div class="col-md-9">
                             <select class="form-control" name="reward_type_detail_id" aria-label="Default select example">
-                                <option selected>Hadiah</option>
+                                <!-- <option selected disabl>Hadiah</option> -->
                                 <option value="1">Umroh</option>
                                 <option value="2">Pulsa</option>
                                 <option value="3">Belum Beruntung</option>
@@ -202,9 +213,9 @@
         });
     });
 
-    $('.show-modal-data').change(function() {
+    $('.show-modal-data').click(function() {
         var datas = JSON.parse($(this).attr('data-json'))
-        console.log('datas =', datas)
+        console.log('asdasda =', datas)
 
         $('[name="kode_uniq"]').val(datas.code);
         $('[name="id_uniq"]').val(datas.id);

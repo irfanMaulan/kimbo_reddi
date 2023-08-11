@@ -1,6 +1,17 @@
 @extends('page.template.master')
 @section('content')
 <br>
+@if (session('success'))
+    <div class="alert alert-success alert-dismissible fade show" id="success-notif" role="alert">
+        {{ session('success') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    </div>
+@elseif (session('failed'))
+    <div class="alert alert-danger alert-dismissible fade show" id="error-notif" role="alert">
+        {{ session('failed') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    </div>
+@endif
 <div class="card">
     <div class="card-header">
         <h3 class="card-title">Program Management</h3>

@@ -1,12 +1,21 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="../../index3.html" class="brand-link">
-      <img src="../../dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">AdminLTE 3</span>
+      <!-- <img src="../../dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8"> -->
+      <span class="brand-text font-weight-light"><strong><center>ADMIN CMS</center></strong></span>
     </a>
 
     <!-- Sidebar -->
     <div class="sidebar">
+    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="image">
+          <img src="{{ asset('dist/img/avatar5.png') }}" class="img-circle elevation-2" alt="User Image">
+        </div>
+        <div class="info">
+          <a href="#" class="d-block">{{ json_encode(session()->get('role')) }}</a>
+        </div>
+      </div>
+    <!-- json_encode(session()->get('name')) -->
 
       <!-- Sidebar Menu -->
       <nav class="mt-2">
@@ -68,6 +77,7 @@
               </p>
             </a>
           </li>
+        @if(session()->get('role') == "superadmin")
           <li class="nav-item">
             <a href="{{ url('/user-management') }}" class="nav-link {{ Request::segment(1) == 'user-management' ? 'active' : '' }}">
               <i class="nav-icon fas fa-th"></i>
@@ -84,6 +94,7 @@
               </p>
             </a>
           </li>
+        @endif
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

@@ -8,13 +8,13 @@
     <ul class="navbar-nav ml-auto">
         <li class="nav-item dropdown">
 
-<form action="{{ url('logout/post') }}" method="post">
-@csrf
-    <button type="submit" class="btn btn-secondary btn-sm">
-            <i class="far fa-user"></i>
-            <!-- <span class="badge badge-danger navbar-badge">3</span> -->
+        <form action="{{ url('logout/post') }}" method="post">
+            @csrf
+            <button type="submit" class="btn btn-secondary btn-sm">
+                <i class="far fa-user"></i>
+                <!-- <span class="badge badge-danger navbar-badge">3</span> -->
             </button>
-</form>
+        </form>
         </li>
     </ul>
 </nav>

@@ -41,6 +41,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
     Route::group(['prefix' => 'list-download'], function()
     {
         Route::get('/', 'listDownloadController@index');
+        Route::post('/post', 'listDownloadController@post');
     });
 
     Route::group(['prefix' => 'ringkasan-hadiah'], function()

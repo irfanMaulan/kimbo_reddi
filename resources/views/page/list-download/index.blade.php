@@ -1,6 +1,17 @@
 @extends('page.template.master')
 @section('content')
 <br>
+@if (session('success'))
+    <div class="alert alert-success alert-dismissible fade show" id="success-notif" role="alert">
+        {{ session('success') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    </div>
+@elseif (session('failed'))
+    <div class="alert alert-danger alert-dismissible fade show" id="error-notif" role="alert">
+        {{ session('failed') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    </div>
+@endif
 <div class="card">
     <div class="card-header">
         <h3 class="card-title">List Download</h3>
@@ -125,15 +136,16 @@
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="{{ url('ringkasan-hadiah/store') }}" method="post">
+            <form action="{{ url('list-download/post') }}" method="post">
                 @csrf
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-3">Jenis Data</div>
                         <div class="col-md-9">
                             <select class="form-control" name="reward_type_id" aria-label="Default select example">
-                                <option value="">Hadiah Besar</option>
-                                <option value="">Hadiah Kecil & Blank</option>
+                                <option value="1">Hadiah Besar</option>
+                                <option value="2">Hadiah Kecil & Blank</option>
+                                <option value="3">Hadiah Blank</option>
                             </select>
                         </div>
                     </div><br>
