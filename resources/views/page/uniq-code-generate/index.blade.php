@@ -109,7 +109,6 @@
                             <td>{{ $res->total_umroh ? $res->total_umroh : '' }}</td>
                             <td>{{ $res->total_pulsa ? $res->total_pulsa : '' }}</td>
                             <td>{{ $res->total_blank ? $res->total_blank : '' }}</td>
-                            <!-- <td>{{ $url1 }}</td> -->
                             @if($res->is_generating == true)
                                 <td><button class="btn btn-success btn-sm" disabled>Download</button> </td>
                             @else
