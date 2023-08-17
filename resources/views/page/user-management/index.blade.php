@@ -38,7 +38,7 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="modal-title-user">Add New User</h5>
-                                <button type="button" class="close" onclick="location.reload()">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <!-- data-dismiss="modal" aria-label="Close" -->
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -48,7 +48,7 @@
                                 <input type="hidden" name="id" id="user-id-input">
                                 <div class="form-group">
                                     <label for="name">Username</label>
-                                    <input type="text" class="form-control require_name" name="username" placeholder="Enter Username" required>
+                                    <input type="text" class="form-control require_name"  id="disabled_update" name="username" placeholder="Enter Username" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="email">Name</label>
@@ -80,7 +80,7 @@
                                 <br>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" style="border-radius: 10px;" class="btn btn-outline-danger" onclick="location.reload()">Cancel</button>
+                                <button type="button" style="border-radius: 10px;" class="btn btn-outline-danger" data-dismiss="modal">Cancel</button>
                                 <!-- data-dismiss="modal" -->
                                 <button type="submit" style="border-radius: 10px;" class="btn btn-danger">Save</button>
                             </div>
@@ -90,17 +90,20 @@
             </form>
         </div>
         <div class="card-body">
-            <div class="row">
-                <div class="col-md-3"></div>
-                <div class="col-md-3"></div>
-                <div class="col-md-3"></div>
-                <div class="col-md-3">
-                    <div class="row">
-                        <div class="col-md-9 text-right"><input type="text" class="form-control" name="search" id=""></div>
-                        <div class="col-md-2"><button type="button" class="btn btn-primary "><i class="fa fa-search"></i></button></div>
+            <form action="{{ url('/user-management') }}" method="get" autocomplete="off">
+                @csrf
+                <div class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-3"></div>
+                    <div class="col-md-3"></div>
+                    <div class="col-md-3">
+                        <div class="row">
+                            <div class="col-md-9 text-right"><input type="text" class="form-control" name="username" id=""  autocomplete="off"></div>
+                            <div class="col-md-2"><button type="submit" class="btn btn-primary "><i class="fa fa-search"></i></button></div>
+                        </div>
                     </div>
-                </div>
-            </div><br>
+                </div><br>
+            </form>
             <table id="example" class="table table-striped table-bordered" style="width:100%">
                 <thead>
                     <tr>
@@ -152,22 +155,22 @@
                         }
                     @endphp
                     @if($beginning == 1)
-                        <a href="{{ url('/kode-unik?page=' .$minus )}}" class="btn btn-primary"><</a>
-                        <a href="{{ url('/kode-unik?page=1') }}" class="btn btn-primary">1</a>
+                        <a href="{{ url('/user-management?page=' .$minus )}}" class="btn btn-primary"><</a>
+                        <a href="{{ url('/user-management?page=1') }}" class="btn btn-primary">1</a>
                         ...
                     @endif
                     @for ($page = $hal_awal; $page <= $hal_akhir; $page++)
                         @if($page == $current)
                             <a class="btn btn-default">{{ $page }}</a>
                         @else
-                            <a href="{{ url('/kode-unik?page='.$page) }}" class="btn btn-primary">{{ $page }}</a>
+                            <a href="{{ url('/user-management?page='.$page) }}" class="btn btn-primary">{{ $page }}</a>
                         @endif
                     @endfor
 
                     @if($lastP == 1)
                         ...
-                        <a href="{{ url('/kode-unik?page='.$last) }}" class="btn btn-primary">{{ $last }}</a>
-                        <a href="{{ url('/kode-unik?page=' .$plus )}}" class="btn btn-primary">></a>
+                        <a href="{{ url('/user-management?page='.$last) }}" class="btn btn-primary">{{ $last }}</a>
+                        <a href="{{ url('/user-management?page=' .$plus )}}" class="btn btn-primary">></a>
                     @endif
                 </div>
             </div><br>
@@ -203,7 +206,7 @@
         $('#user-form').attr('action', "{{ url('/user-management/put') }}")
         var row = JSON.parse($(this).attr('data-row'))
         console.log('row = ', row)
-        $('.pass_area').hide()
+        // $('.pass_area').hide()
         $('#user-modal').modal('show')
         $('#user-id-input').val(row.id)
         $('[name="username"]').val(row.username)
@@ -212,6 +215,7 @@
         $('[name="role"]').change();
         $('#modal-title-user').text('Edit User')
         console.log(row);
+        document.getElementById("disabled_update").readOnly = true;
     })
 
 

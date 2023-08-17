@@ -20,25 +20,29 @@
         </div>
     </div>
     <div class="card-body">
-        <div class="row">
-            <div class="col-md-4">
-                <input type="date" class="form-control" name="start_date" id="">
+
+        <form action="{{ url('/list-download') }}" method="get">
+            @csrf
+            <div class="row">
+                <div class="col-md-4">
+                    <input type="date" class="form-control" name="start_date" value="{{ !empty(request()->get('start_date')) ? request()->get('start_date'): '' }}" id="">
+                </div>
+                <div class="col-md-4">
+                    <input type="date" class="form-control" name="end_date" value="{{ !empty(request()->get('end_date')) ? request()->get('end_date'): '' }}" id="">
+                </div>
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+                <!-- <div class="col-md-3">
+                    <select class="form-select" aria-label="Default select example">
+                        <option selected>Open this select menu</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                    </select>
+                </div> -->
             </div>
-            <div class="col-md-4">
-                <input type="date" class="form-control" name="end_date" id="">
-            </div>
-            <div class="col-md-4">
-                <button type="button" class="btn btn-primary">Search</button>
-            </div>
-            <!-- <div class="col-md-3">
-                <select class="form-select" aria-label="Default select example">
-                    <option selected>Open this select menu</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                </select>
-            </div> -->
-        </div>
+        </form>
     </div>
     <div class="col-md-12">
         <table class="table tablr-striped table-bordered" id="example">
@@ -55,17 +59,22 @@
             </thead>
             <tbody>
                 @if(count($response) > 0)
-                    @foreach($response as $nores)
+                    @foreach($response as $res)
                         <tr>
                             <td>{{ $no++ }}</td>
-                            <td>{{ $res->program_id }}</td>
-                            <td>{{ $res->reward_type_id }}</td>
+                            <td>{{ $res->uuid  }}</td>
+                            <td>{{ $res->reward_type }}</td>
                             <td>{{ $res->start_date }}</td>
                             <td>{{ $res->end_date }}</td>
-                            <td>{{ $res->user_id }}</td>
-                            <td>{{ $res->created_at }}</td>
+                            <td>{{ $res->created_by }}</td>
+                            <td>{{ date('d-M-y h:i:s', strtotime($res->created_at)) }}</td>
                             <td>{{ $res->status }}</td>
-                            <td><button class="btn btn-success btn-sm">Download</button></td>
+                            <?php
+                                $url=str_replace(' ','%20',$res->file_url);
+                                $url1=$res->file_url;
+                                $result=encrypt($url)
+                            ?>
+                            <td><a href="{{ url('/download/'. $result) }}" class="btn btn-success btn-sm">Download</a></td>
                         </tr>
                     @endforeach
                 @else
@@ -103,22 +112,22 @@
                     }
                 @endphp
                 @if($beginning == 1)
-                    <a href="{{ url('/kode-unik?page=' .$minus )}}" class="btn btn-primary"><</a>
-                    <a href="{{ url('/kode-unik?page=1') }}" class="btn btn-primary">1</a>
+                    <a href="{{ url('/list-download?page=' .$minus )}}" class="btn btn-primary"><</a>
+                    <a href="{{ url('/list-download?page=1') }}" class="btn btn-primary">1</a>
                     ...
                 @endif
                 @for ($page = $hal_awal; $page <= $hal_akhir; $page++)
                     @if($page == $current)
                         <a class="btn btn-default">{{ $page }}</a>
                     @else
-                        <a href="{{ url('/kode-unik?page='.$page) }}" class="btn btn-primary">{{ $page }}</a>
+                        <a href="{{ url('/list-download?page='.$page) }}" class="btn btn-primary">{{ $page }}</a>
                     @endif
                 @endfor
 
                 @if($lastP == 1)
                     ...
-                    <a href="{{ url('/kode-unik?page='.$last) }}" class="btn btn-primary">{{ $last }}</a>
-                    <a href="{{ url('/kode-unik?page=' .$plus )}}" class="btn btn-primary">></a>
+                    <a href="{{ url('/list-download?page='.$last) }}" class="btn btn-primary">{{ $last }}</a>
+                    <a href="{{ url('/list-download?page=' .$plus )}}" class="btn btn-primary">></a>
                 @endif
             </div>
         </div><br>
@@ -145,7 +154,7 @@
                             <select class="form-control" name="reward_type_id" aria-label="Default select example">
                                 <option value="1">Hadiah Besar</option>
                                 <option value="2">Hadiah Kecil & Blank</option>
-                                <option value="3">Hadiah Blank</option>
+                                <!-- <option value="3">Hadiah Blank</option> -->
                             </select>
                         </div>
                     </div><br>

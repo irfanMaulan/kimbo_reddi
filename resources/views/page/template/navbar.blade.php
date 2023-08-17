@@ -11,7 +11,7 @@
         <form action="{{ url('logout/post') }}" method="post">
             @csrf
             <button type="submit" class="btn btn-secondary btn-sm">
-                <i class="far fa-user"></i>
+                <i class="far fa-user"></i>&nbsp;&nbsp; Logout
                 <!-- <span class="badge badge-danger navbar-badge">3</span> -->
             </button>
         </form>

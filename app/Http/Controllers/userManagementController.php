@@ -13,8 +13,9 @@ class userManagementController extends Controller
 
         if(!empty($cekCookie)){
             $guzzle = new Client(['base_uri' => env('API_URL')]);
+            $username = !empty($request->username) ? $request->username : '';
 
-            $raw_response = $guzzle->get('/v1/users', [
+            $raw_response = $guzzle->get('/v1/users?username='.$username, [
                 'headers' => [ 'Authorization' => 'Bearer ' . $cekCookie ],
             ]);
 
@@ -79,6 +80,7 @@ class userManagementController extends Controller
 
     public function put(Request $request)
     {
+        // return $request->all();
         $cekCookie = $request->cookie('cookie_consent');
         $client = new Client(); // I deactivated ssl verification
         try{

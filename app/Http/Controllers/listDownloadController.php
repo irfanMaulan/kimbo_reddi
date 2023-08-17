@@ -23,6 +23,7 @@ class listDownloadController extends Controller
 
             $response = $raw_response->getBody()->getContents();
             $data = json_decode($response);
+            // return $data->data->data;
 
             return view('page/list-download/index', [
                 'no' => 1,

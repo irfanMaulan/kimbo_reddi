@@ -13,8 +13,9 @@ class uniqCodeGenerateController extends Controller
 
         if(!empty($cekCookie)){
             $guzzle = new Client(['base_uri' => env('API_URL')]);
+            $description = !empty($request->description) ? $request->description : '';
 
-            $raw_response = $guzzle->get('/v1/program/1/unique-code-generates', [
+            $raw_response = $guzzle->get('/v1/program/1/unique-code-generates?description='.$description, [
                 'headers' => [ 'Authorization' => 'Bearer ' . $cekCookie ],
             ]);
 

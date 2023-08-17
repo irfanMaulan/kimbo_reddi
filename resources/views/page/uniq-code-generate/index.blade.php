@@ -75,17 +75,20 @@
             </form>
         </div>
         <div class="card-body">
-            <div class="row">
-                <div class="col-md-3"></div>
-                <div class="col-md-3"></div>
-                <div class="col-md-3"></div>
-                <div class="col-md-3">
-                    <div class="row">
-                        <div class="col-md-9 text-right"><input type="text" class="form-control" name="search" id=""></div>
-                        <div class="col-md-2"><button type="button" class="btn btn-primary "><i class="fa fa-search"></i></button></div>
+            <form action="{{ url('/uniq-code-generate') }}" method="get">
+                @csrf
+                <div class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-3"></div>
+                    <div class="col-md-3"></div>
+                    <div class="col-md-3">
+                        <div class="row">
+                            <div class="col-md-9 text-right"><input type="text" class="form-control" name="description" id=""></div>
+                            <div class="col-md-2"><button type="submit" class="btn btn-primary "><i class="fa fa-search"></i></button></div>
+                        </div>
                     </div>
-                </div>
-            </div><br>
+                </div><br>
+            </form>
             <table class="table tablr-striped table-bordered" id="example">
                 <thead>
                     <th>No</th>
@@ -93,6 +96,7 @@
                     <th>Total Umroh</th>
                     <th>Total Pulsa</th>
                     <th>Total Blank</th>
+                    <!-- <th>Total Blank</th> -->
                     <th>Download File</th>
                     <th>Status Generated</th>
                     <th>Date</th>
@@ -105,7 +109,17 @@
                             <td>{{ $res->total_umroh ? $res->total_umroh : '' }}</td>
                             <td>{{ $res->total_pulsa ? $res->total_pulsa : '' }}</td>
                             <td>{{ $res->total_blank ? $res->total_blank : '' }}</td>
-                            <td><a href="{{ url('/download/'.encrypt($res->file_url)) }}" class="btn btn-success btn-sm">Download</a> </td>
+                            <?php
+                                $url=str_replace(' ','%20',$res->file_url);
+                                $url1=$res->file_url;
+                                $result=encrypt($url)
+                            ?>
+                            <!-- <td>{{ $url1 }}</td> -->
+                            @if($res->is_generating == true)
+                                <td><button class="btn btn-success btn-sm" disabled>Download</button> </td>
+                            @else
+                                <td><a href="{{ url('/download/'.$result) }}" class="btn btn-success btn-sm">Download</a> </td>
+                            @endif
                             <!-- <td><button type="button" class="btn btn-success" id="btn_update" data-toggle="modal" data-json="{{json_encode($res)}}" data-target=".bd-example-modal-lg"><i class="fas fa-edit"></i> &nbsp; Edit</button></td> -->
                             <td>{{ $res->is_generating == false ? "Finish" : "On Proccess" }}</td>
                             <td>{{ $res->created_at ? date('d M Y H:m', strtotime($res->created_at)) : '' }}</td>

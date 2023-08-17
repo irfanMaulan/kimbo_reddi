@@ -12,6 +12,19 @@
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
     </div>
 @endif
+<style>
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+</style>
 <div class="card">
     <div class="card-header">
         <h3 class="card-title">Data Reedem - Hadiah Besar</h3>
@@ -24,13 +37,13 @@
             @csrf
             <div class="row">
                 <div class="col-md-3">
-                    <input type="date" class="form-control" name="start_date" id="" value="{{ !empty(request()->get('start_date')) ? request()->get('start_date'): "" }}">
+                    <input type="date" class="form-control" name="start_date" id="" value="{{ !empty(request()->get('start_date')) ? request()->get('start_date'): '' }}">
                 </div>
                 <div class="col-md-3">
-                    <input type="date" class="form-control" name="end_date" id="" value="{{ !empty(request()->get('end_date')) ? request()->get('end_date'): "" }}">
+                    <input type="date" class="form-control" name="end_date" id="" value="{{ !empty(request()->get('end_date')) ? request()->get('end_date'): '' }}">
                 </div>
                 <div class="col-md-3">
-                    <input type="text" name="search" class="form-control" id="" placeholder="Search" value="{{ !empty(request()->get('search')) ? request()->get('search'): "" }}">
+                    <input type="text" name="search" class="form-control" id="" placeholder="Search" value="{{ !empty(request()->get('search')) ? request()->get('search'): '' }}">
                 </div>
                 <div class="col-md-3">
                     <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i>&nbsp; Search</button>
@@ -62,7 +75,7 @@
                                 <td>{{ $res->code ?$res->code : '' }}</td>
                                 <td>{{ $res->nik ?$res->nik : '' }}</td>
                                 <td>{{ $res->city ?$res->city : '' }}</td>
-                                <td>{{ $res->redeem_date ?  date('d-M-y', strtotime($res->redeem_date)) : '' }}</td>
+                                <td>{{ $res->redeem_date ?  date('d-M-y h:i:s', strtotime($res->redeem_date)) : '' }}</td>
                                 <td>{{ $res->reward ? $res->reward : '' }}</td>
                                 <td>{{ $res->push_notif_date ? date('d-M-y', strtotime($res->push_notif_date)) : '' }}</td>
                                 <td><button class="btn btn-success btn-sm"><i class="fa fa-share" aria-hidden="true"></i>&nbsp; Push WA</button></td>
@@ -194,7 +207,7 @@
     function validation(){
         let x = document.getElementById("nik");
         console.log(x.value.length)
-        if(x.value.length > 15){
+        if(x.value.length == 16){
             $('#btn_disabled').prop('disabled', false);
         } else {
             $('#btn_disabled').prop('disabled', true);
