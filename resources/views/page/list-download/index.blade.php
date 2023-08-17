@@ -69,12 +69,7 @@
                             <td>{{ $res->created_by }}</td>
                             <td>{{ date('d-M-y h:i:s', strtotime($res->created_at)) }}</td>
                             <td>{{ $res->status }}</td>
-                            <?php
-                                $url=str_replace(' ','%20',$res->file_url);
-                                $url1=$res->file_url;
-                                $result=encrypt($url)
-                            ?>
-                            <td><a href="{{ url('/download/'. $result) }}" class="btn btn-success btn-sm">Download</a></td>
+                            <td><a href="{{ $res->file_url }}" class="btn btn-success btn-sm">Download</a></td>
                         </tr>
                     @endforeach
                 @else

@@ -109,16 +109,11 @@
                             <td>{{ $res->total_umroh ? $res->total_umroh : '' }}</td>
                             <td>{{ $res->total_pulsa ? $res->total_pulsa : '' }}</td>
                             <td>{{ $res->total_blank ? $res->total_blank : '' }}</td>
-                            <?php
-                                $url=str_replace(' ','%20',$res->file_url);
-                                $url1=$res->file_url;
-                                $result=encrypt($url)
-                            ?>
                             <!-- <td>{{ $url1 }}</td> -->
                             @if($res->is_generating == true)
                                 <td><button class="btn btn-success btn-sm" disabled>Download</button> </td>
                             @else
-                                <td><a href="{{ url('/download/'.$result) }}" class="btn btn-success btn-sm">Download</a> </td>
+                                <td><a href="{{ $res->file_url }}" class="btn btn-success btn-sm">Download</a> </td>
                             @endif
                             <!-- <td><button type="button" class="btn btn-success" id="btn_update" data-toggle="modal" data-json="{{json_encode($res)}}" data-target=".bd-example-modal-lg"><i class="fas fa-edit"></i> &nbsp; Edit</button></td> -->
                             <td>{{ $res->is_generating == false ? "Finish" : "On Proccess" }}</td>
