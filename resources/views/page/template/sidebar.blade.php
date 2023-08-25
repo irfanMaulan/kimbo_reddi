@@ -40,7 +40,7 @@
               <li class="nav-item">
                 <a href="{{ url('/data-reedem-hadiah-kecil') }}" class="nav-link {{ Request::segment(1) == 'data-reedem-hadiah-kecil' ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Hadiah Kecil</p>
+                  <p>Hadiah Kecil & Blank</p>
                 </a>
               </li>
             </ul>

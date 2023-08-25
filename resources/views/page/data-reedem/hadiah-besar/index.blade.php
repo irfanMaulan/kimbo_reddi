@@ -78,7 +78,12 @@ input[type=number] {
                                 <td>{{ $res->redeem_date ?  date('d-M-y h:i:s', strtotime($res->redeem_date)) : '' }}</td>
                                 <td>{{ $res->reward ? $res->reward : '' }}</td>
                                 <td>{{ $res->push_notif_date ? date('d-M-y', strtotime($res->push_notif_date)) : '' }}</td>
-                                <td><button class="btn btn-success btn-sm"><i class="fa fa-share" aria-hidden="true"></i>&nbsp; Push WA</button></td>
+                                <td>
+                                    <form action="{{ url('data-reedem-hadiah-besar/push_notif/'.$res->id) }}" method="post">
+                                        @csrf
+                                        <button type="submit" class="btn btn-success btn-sm"><i class="fa fa-share" aria-hidden="true"></i>&nbsp; Push WA</button>
+                                    </form>
+                                </td>
                             </tr>
                         @endforeach
                     @else

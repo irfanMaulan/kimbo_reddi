@@ -31,6 +31,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
     {
         Route::get('/', 'hadiahBesarController@index');
         Route::post('/store', 'hadiahBesarController@store');
+        Route::post('/push_notif/{id}', 'hadiahBesarController@pushNotif');
     });
 
     Route::group(['prefix' => 'data-reedem-hadiah-kecil'], function()

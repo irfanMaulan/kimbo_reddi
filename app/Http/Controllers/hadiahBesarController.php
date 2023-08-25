@@ -78,4 +78,40 @@ class hadiahBesarController extends Controller
         return redirect('/data-reedem-hadiah-besar')->withInput()->with('success', $success->message);
         // var_dump(json_decode($response->getBody()->getContents()));
     }
+
+    public function pushNotif(Request $request, $id)
+    {
+        $cekCookie = $request->cookie('cookie_consent');
+        $client = new Client(['verify' => false]); // I deactivated ssl verification
+        $base_uri = env('API_URL') . '/redeems/1/push-wa';
+        $body = [
+            "id" =>$id
+        ];
+
+        $response = $client->request(
+            'POST',
+            $base_uri,
+            [
+                'headers' => [
+                    'content-type' => 'application/json',
+                    'accept' => 'application/ld+json',
+                    'Authorization' => 'Bearer ' . $cekCookie
+                ],
+                'body' => json_encode($body),
+            ]
+        );
+        $body = $response->getBody();
+        $success =  json_decode((string) $body);
+        // return $success;
+        if (isset($success->errors)) {
+            return redirect('/data-reedem-hadiah-besar')->withErrors($success->errors)->withInput()->with('failed', $success->errors[0]);
+        }
+
+        if ($success->code == 400) {
+            return redirect('/data-reedem-hadiah-besar')->withInput()->with('failed', $success->message);
+        }
+
+        return redirect('/data-reedem-hadiah-besar')->withInput()->with('Send Message Success', $success->message);
+        // var_dump(json_decode($response->getBody()->getContents()));
+    }
 }
