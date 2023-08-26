@@ -79,7 +79,7 @@ input[type=number] {
                                 <td>{{ $res->reward ? $res->reward : '' }}</td>
                                 <td>{{ $res->push_notif_date ? date('d-M-y h:i:s', strtotime($res->push_notif_date)) : '' }}</td>
                                 <td>
-                                    <form action="{{ url('data-reedem-hadiah-besar/push_notif/'.$res->id) }}" method="post">
+                                    <form onSubmit="if(!confirm('Apakah Anda yakin untuk mengirim Notifikasi kepada user tersebut ?')){return false;}" action="{{ url('data-reedem-hadiah-besar/push_notif/'.$res->id) }}" method="post">
                                         @csrf
                                         <button type="submit" class="btn btn-success btn-sm"><i class="fa fa-share" aria-hidden="true"></i>&nbsp; Push WA</button>
                                     </form>
@@ -216,6 +216,20 @@ input[type=number] {
             $('#btn_disabled').prop('disabled', false);
         } else {
             $('#btn_disabled').prop('disabled', true);
+        }
+    }
+
+    function validate(form) {
+
+        // validation code here ...
+
+
+        if(!valid) {
+            alert('Please correct the errors in the form!');
+            return false;
+        }
+        else {
+            return confirm('Do you really want to submit the form?');
         }
     }
 
