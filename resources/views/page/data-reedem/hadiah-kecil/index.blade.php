@@ -57,7 +57,7 @@
                             <td>{{ $res->code ?$res->code : '' }}</td>
                             <td>{{ $res->nik ?$res->nik : '' }}</td>
                             <td>{{ $res->city ?$res->city : '' }}</td>
-                            <td>{{ $res->redeem_date ?  date('d-M-y', strtotime($res->redeem_date)) : '' }}</td>
+                            <td>{{ $res->redeem_date ?  date('d-M-y h:i:s', strtotime($res->redeem_date)) : '' }}</td>
                             <td>{{ $res->reward ? $res->reward : '' }}</td>
                         </tr>
                     @endforeach
