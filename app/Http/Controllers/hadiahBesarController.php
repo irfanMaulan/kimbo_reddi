@@ -86,7 +86,7 @@ class hadiahBesarController extends Controller
         $client = new Client(['verify' => false]); // I deactivated ssl verification
         $base_uri = env('API_URL') . '/redeems/1/push-wa';
         $body = [
-            "id" =>$id
+            "id" => (int) $id
         ];
 
         $response = $client->request(
