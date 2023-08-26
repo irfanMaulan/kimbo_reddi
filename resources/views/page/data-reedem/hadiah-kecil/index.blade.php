@@ -9,28 +9,31 @@
         </div>
     </div>
     <div class="card-body">
-        <div class="row">
-            <div class="col-md-3">
-                <input type="date" class="form-control" name="start_date" id="" value="{{ !empty(request()->get('start_date')) ? request()->get('start_date'): "" }}">
+        <form action="{{ url('/data-reedem-hadiah-kecil') }}" method="get">
+            @csrf
+            <div class="row">
+                <div class="col-md-3">
+                    <input type="date" class="form-control" name="start_date" id="" value="{{ !empty(request()->get('start_date')) ? request()->get('start_date'): "" }}">
+                </div>
+                <div class="col-md-3">
+                    <input type="date" class="form-control" name="end_date" id="" value="{{ !empty(request()->get('end_date')) ? request()->get('end_date'): "" }}">
+                </div>
+                <div class="col-md-3">
+                    <input type="text" name="search" class="form-control" id="" placeholder="Search" value="{{ !empty(request()->get('search')) ? request()->get('search'): "" }}">
+                </div>
+                <div class="col-md-3">
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+                <!-- <div class="col-md-3">
+                    <select class="form-select" aria-label="Default select example">
+                        <option selected>Open this select menu</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                    </select>
+                </div> -->
             </div>
-            <div class="col-md-3">
-                <input type="date" class="form-control" name="end_date" id="" value="{{ !empty(request()->get('end_date')) ? request()->get('end_date'): "" }}">
-            </div>
-            <div class="col-md-3">
-                <input type="text" name="search" class="form-control" id="" placeholder="Search" value="{{ !empty(request()->get('search')) ? request()->get('search'): "" }}">
-            </div>
-            <div class="col-md-3">
-                <button type="button" class="btn btn-primary">Search</button>
-            </div>
-            <!-- <div class="col-md-3">
-                <select class="form-select" aria-label="Default select example">
-                    <option selected>Open this select menu</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                </select>
-            </div> -->
-        </div>
+        </form>
     </div>
     <div class="col-md-12">
         <table class="table tablr-striped table-bordered" id="example">
@@ -43,8 +46,6 @@
                 <th>Kota</th>
                 <th>Reedem Tanggal</th>
                 <th>Hadiah</th>
-                <th>Push Notif</th>
-                <th>Aksi</th>
             </thead>
             <tbody>
                 @if(count($response) > 0)
@@ -58,8 +59,6 @@
                             <td>{{ $res->city ?$res->city : '' }}</td>
                             <td>{{ $res->redeem_date ?  date('d-M-y', strtotime($res->redeem_date)) : '' }}</td>
                             <td>{{ $res->reward ? $res->reward : '' }}</td>
-                            <td>{{ $res->push_notif_date ? date('d-M-y', strtotime($res->push_notif_date)) : '' }}</td>
-                            <td><button class="btn btn-success btn-sm">Push WA</button></td>
                         </tr>
                     @endforeach
                 @else

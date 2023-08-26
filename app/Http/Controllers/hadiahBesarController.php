@@ -21,6 +21,7 @@ class hadiahBesarController extends Controller
                 '&name='. $search .
                 '&msisdn='. $search.
                 '&nik='. $search.
+                '&code='. $search.
                 '&city='. $search, [
                 'headers' => [ 'Authorization' => 'Bearer ' . $cekCookie ],
             ]);
