@@ -15,13 +15,15 @@ class hadiahKecilController extends Controller
             $start_date = !empty($request->start_date) ? $request->start_date : '';
             $end_date = !empty($request->end_date) ? $request->end_date : '';
             $search = !empty($request->search) ? $request->search : '';
+            $filterHadiah = !empty($request->filter_hadiah) ? $request->filter_hadiah : '';
             $raw_response = $guzzle->get('/v1/redeems/2?start_date='. $start_date .
                 '&end_date='. $end_date .
                 '&name='. $search .
                 '&msisdn='. $search.
                 '&nik='. $search.
                 '&code='. $search.
-                '&city='. $search, [
+                '&city='. $search.
+                '&reward='. $filterHadiah, [
                 'headers' => [ 'Authorization' => 'Bearer ' . $cekCookie ],
             ]);
 

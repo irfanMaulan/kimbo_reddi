@@ -81,7 +81,12 @@ input[type=number] {
                                 <td>
                                     <form onSubmit="if(!confirm('Apakah Anda yakin untuk mengirim Notifikasi kepada user tersebut ?')){return false;}" action="{{ url('data-reedem-hadiah-besar/push_notif/'.$res->id) }}" method="post">
                                         @csrf
-                                        <button type="submit" class="btn btn-success btn-sm"><i class="fa fa-share" aria-hidden="true"></i>&nbsp; Push WA</button>
+                                        @if(empty($res->push_notif_date))
+                                            <button type="submit" class="btn btn-success btn-sm"><i class="fa fa-share" aria-hidden="true"></i>&nbsp; Push WA</button>
+                                        @else
+                                            <button type="button" class="btn btn-success btn-sm" disabled><i class="fa fa-share" aria-hidden="true"></i>&nbsp; Push WA</button>
+                                            <!-- <a href="#" class="btn btn-success btn-sm"><i class="fa fa-share" aria-hidden="true"></i>&nbsp; Push WA</a> -->
+                                        @endif
                                     </form>
                                 </td>
                             </tr>

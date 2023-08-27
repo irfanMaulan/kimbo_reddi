@@ -12,16 +12,24 @@
         <form action="{{ url('/data-reedem-hadiah-kecil') }}" method="get">
             @csrf
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <input type="date" class="form-control" name="start_date" id="" value="{{ !empty(request()->get('start_date')) ? request()->get('start_date'): "" }}">
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <input type="date" class="form-control" name="end_date" id="" value="{{ !empty(request()->get('end_date')) ? request()->get('end_date'): "" }}">
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <input type="text" name="search" class="form-control" id="" placeholder="Search" value="{{ !empty(request()->get('search')) ? request()->get('search'): "" }}">
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
+                    <select class="form-control" aria-label="Default select example" name="filter_hadiah">
+                        <option selected>Pilih</option>
+                        <option value="2">Hadiah Pulsa</option>
+                        <option value="3">Hadiah Blank</option>
+                    </select>
+
+                </div>
+                <div class="col-md-2">
                     <button type="submit" class="btn btn-primary">Search</button>
                 </div>
                 <!-- <div class="col-md-3">
