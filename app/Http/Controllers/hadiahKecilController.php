@@ -16,16 +16,29 @@ class hadiahKecilController extends Controller
             $end_date = !empty($request->end_date) ? $request->end_date : '';
             $search = !empty($request->search) ? $request->search : '';
             $filterHadiah = !empty($request->filter_hadiah) ? $request->filter_hadiah : '';
-            $raw_response = $guzzle->get('/v1/redeems/2?start_date='. $start_date .
-                '&end_date='. $end_date .
-                '&name='. $search .
-                '&msisdn='. $search.
-                '&nik='. $search.
-                '&code='. $search.
-                '&city='. $search.
-                '&reward='. $filterHadiah, [
-                'headers' => [ 'Authorization' => 'Bearer ' . $cekCookie ],
-            ]);
+            // return $filterHadiah;
+            if($filterHadiah != ''){
+                $raw_response = $guzzle->get('/v1/redeems/2?start_date='. $start_date .
+                    '&end_date='. $end_date .
+                    '&name='. $search .
+                    '&msisdn='. $search.
+                    '&nik='. $search.
+                    '&code='. $search.
+                    '&city='. $search.
+                    '&reward_type_detail_id='. $filterHadiah, [
+                    'headers' => [ 'Authorization' => 'Bearer ' . $cekCookie ],
+                ]);
+            }else{
+                $raw_response = $guzzle->get('/v1/redeems/2?start_date='. $start_date .
+                    '&end_date='. $end_date .
+                    '&name='. $search .
+                    '&msisdn='. $search.
+                    '&nik='. $search.
+                    '&code='. $search.
+                    '&city='. $search, [
+                    'headers' => [ 'Authorization' => 'Bearer ' . $cekCookie ],
+                ]);
+            }
 
             $response = $raw_response->getBody()->getContents();
             $data = json_decode($response);
@@ -34,6 +47,7 @@ class hadiahKecilController extends Controller
                 'no' => 1,
                 'response' => $data->data->data,
                 'current'=>$data->data->current_page,
+                'total_record'=>$data->data->total_record,
                 'last'=>$data->data->last_page,
             ]);
         }else{

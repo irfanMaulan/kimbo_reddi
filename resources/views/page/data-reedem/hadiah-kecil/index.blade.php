@@ -23,9 +23,9 @@
                 </div>
                 <div class="col-md-2">
                     <select class="form-control" aria-label="Default select example" name="filter_hadiah">
-                        <option selected>Pilih</option>
-                        <option value="2">Hadiah Pulsa</option>
-                        <option value="3">Hadiah Blank</option>
+                        <option value="" selected>Pilih</option>
+                        <option value="2">Pulsa 10.000</option>
+                        <option value="3">Belum Beruntung</option>
                     </select>
 
                 </div>
@@ -77,7 +77,7 @@
             </tbody>
         </table>
         <div class="row">
-            <div class="col-md-3"></div>
+            <div class="col-md-3">Showing <strong>1</strong> to <strong>{{ $last > '20' ? '20' : count($response)  }}</strong> of <strong>{{ $total_record }}</strong> entries</div>
             <div class="col-md-3"></div>
             <div class="col-md-2"></div>
             <div class="col-md-4 text-right">
