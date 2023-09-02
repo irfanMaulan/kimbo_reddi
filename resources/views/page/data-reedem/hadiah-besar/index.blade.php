@@ -127,22 +127,22 @@ input[type=number] {
                     }
                 @endphp
                 @if($beginning == 1)
-                    <a href="{{ url('/kode-unik?page=' .$minus )}}" class="btn btn-primary"><</a>
-                    <a href="{{ url('/kode-unik?page=1') }}" class="btn btn-primary">1</a>
+                    <a href="{{ url('/data-reedem-hadiah-besar?page=' .$minus )}}" class="btn btn-primary"><</a>
+                    <a href="{{ url('/data-reedem-hadiah-besar?page=1') }}" class="btn btn-primary">1</a>
                     ...
                 @endif
                 @for ($page = $hal_awal; $page <= $hal_akhir; $page++)
                     @if($page == $current)
                         <a class="btn btn-default">{{ $page }}</a>
                     @else
-                        <a href="{{ url('/kode-unik?page='.$page) }}" class="btn btn-primary">{{ $page }}</a>
+                        <a href="{{ url('/data-reedem-hadiah-besar?page='.$page) }}" class="btn btn-primary">{{ $page }}</a>
                     @endif
                 @endfor
 
                 @if($lastP == 1)
                     ...
-                    <a href="{{ url('/kode-unik?page='.$last) }}" class="btn btn-primary">{{ $last }}</a>
-                    <a href="{{ url('/kode-unik?page=' .$plus )}}" class="btn btn-primary">></a>
+                    <a href="{{ url('/data-reedem-hadiah-besar?page='.$last) }}" class="btn btn-primary">{{ $last }}</a>
+                    <a href="{{ url('/data-reedem-hadiah-besar?page=' .$plus )}}" class="btn btn-primary">></a>
                 @endif
             </div>
         </div><br>
