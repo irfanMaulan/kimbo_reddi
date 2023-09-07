@@ -16,9 +16,13 @@ class hadiahKecilController extends Controller
             $end_date = !empty($request->end_date) ? $request->end_date : '';
             $search = !empty($request->search) ? $request->search : '';
             $filterHadiah = !empty($request->filter_hadiah) ? $request->filter_hadiah : '';
+            $size = !empty($request->size) ? $request->size : 20;
+            $page = !empty($request->page) ? $request->page : 1;
             // return $filterHadiah;
             if($filterHadiah != ''){
                 $raw_response = $guzzle->get('/v1/redeems/2?start_date='. $start_date .
+                    '&page='. $page .
+                    '&size='. $size .
                     '&end_date='. $end_date .
                     '&name='. $search .
                     '&msisdn='. $search.
@@ -30,6 +34,8 @@ class hadiahKecilController extends Controller
                 ]);
             }else{
                 $raw_response = $guzzle->get('/v1/redeems/2?start_date='. $start_date .
+                    '&page='. $page .
+                    '&size='. $size .
                     '&end_date='. $end_date .
                     '&name='. $search .
                     '&msisdn='. $search.
