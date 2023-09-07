@@ -78,7 +78,8 @@
         </table>
         <div class="row">
             <!-- <div class="col-md-3">Showing <strong>1</strong> to <strong>{{ $last > '20' ? '20' : count($response)  }}</strong> of <strong>{{ $total_record }}</strong> entries</div> -->
-            <div class="col-md-3">Showing <strong>{{ 1 + (($page - 1)  * 20) }}</strong> to <strong>{{ $last > '20' ? 20 + (($page - 1)  * 20) : count($response)  }}</strong> of <strong>{{ $total_record }}</strong> entries</div>
+            <!-- <div class="col-md-3">Showing <strong>{{ 1 + (($page - 1)  * 20) }}</strong> to <strong>{{ $last > '20' ? 20 + (($page - 1)  * 20) : count($response)  }}</strong> of <strong>{{ $total_record }}</strong> entries</div> -->
+            <div class="col-md-3">Showing <strong>{{ 1 + (($page - 1)  * 20) }}</strong> to <strong>{{ $total_record > '20' ? 20 + (($page - 1)  * 20) : $total_record  }}</strong> of <strong>{{ $total_record }}</strong> entries</div>
             <div class="col-md-3"></div>
             <div class="col-md-2"></div>
             <div class="col-md-4 text-right">
