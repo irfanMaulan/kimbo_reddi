@@ -26,7 +26,8 @@ class kodeUniqController extends Controller
             $response = $raw_response->getBody()->getContents();
             $data = json_decode($response);
             return view('page/kode-uniq/index', [
-                'no' => 1,
+                'no' => 1 + (($page - 1)  * 20),
+                'page'=>$data->data->page,
                 'current'=>$data->data->current_page,
                 'last'=>$data->data->last_page,
                 'response' => $data->data->data,

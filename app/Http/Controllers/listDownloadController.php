@@ -16,8 +16,12 @@ class listDownloadController extends Controller
             $start_date = !empty($request->start_date) ? $request->start_date : '';
             $end_date = !empty($request->end_date) ? $request->end_date : '';
             $search = !empty($request->search) ? $request->search : '';
+            $size = !empty($request->size) ? $request->size : 20;
+            $page = !empty($request->page) ? $request->page : 1;
             $raw_response = $guzzle->get('/v1/download-requests?start_date='. $start_date .
-            '&end_date='. $end_date, [
+                '&page='. $page .
+                '&size='. $size .
+                '&end_date='. $end_date, [
                 'headers' => [ 'Authorization' => 'Bearer ' . $cekCookie ],
             ]);
 
@@ -26,7 +30,7 @@ class listDownloadController extends Controller
             // return $data->data->data;
 
             return view('page/list-download/index', [
-                'no' => 1,
+                'no' => 1 + (($page - 1)  * 20),
                 'response' => $data->data->data,
                 'current'=>$data->data->current_page,
                 'last'=>$data->data->last_page,

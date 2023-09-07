@@ -65,7 +65,7 @@
                             <td>{{ $res->code ?$res->code : '' }}</td>
                             <td>{{ $res->nik ?$res->nik : '' }}</td>
                             <td>{{ $res->city ?$res->city : '' }}</td>
-                            <td>{{ $res->redeem_date ?  date('d-M-y h:i:s', strtotime($res->redeem_date)) : '' }}</td>
+                            <td>{{ $res->redeem_date ?  date('d-M-y H:m:s', strtotime($res->redeem_date)) : '' }}</td>
                             <td>{{ $res->reward ? $res->reward : '' }}</td>
                         </tr>
                     @endforeach
@@ -77,7 +77,8 @@
             </tbody>
         </table>
         <div class="row">
-            <div class="col-md-3">Showing <strong>1</strong> to <strong>{{ $last > '20' ? '20' : count($response)  }}</strong> of <strong>{{ $total_record }}</strong> entries</div>
+            <!-- <div class="col-md-3">Showing <strong>1</strong> to <strong>{{ $last > '20' ? '20' : count($response)  }}</strong> of <strong>{{ $total_record }}</strong> entries</div> -->
+            <div class="col-md-3">Showing <strong>{{ 1 + (($page - 1)  * 20) }}</strong> to <strong>{{ $last > '20' ? 20 + (($page - 1)  * 20) : count($response)  }}</strong> of <strong>{{ $total_record }}</strong> entries</div>
             <div class="col-md-3"></div>
             <div class="col-md-2"></div>
             <div class="col-md-4 text-right">

@@ -67,7 +67,7 @@
                             <td>{{ $res->start_date }}</td>
                             <td>{{ $res->end_date }}</td>
                             <td>{{ $res->created_by }}</td>
-                            <td>{{ date('d-M-y h:i:s', strtotime($res->created_at)) }}</td>
+                            <td>{{ date('d-M-y H:m:s', strtotime($res->created_at)) }}</td>
                             <td>{{ $res->status }}</td>
                             <td><a href="{{ $res->file_url }}" target="_blank" class="btn btn-success btn-sm">Download</a></td>
                         </tr>

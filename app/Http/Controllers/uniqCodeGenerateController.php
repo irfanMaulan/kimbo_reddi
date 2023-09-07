@@ -14,15 +14,17 @@ class uniqCodeGenerateController extends Controller
         if(!empty($cekCookie)){
             $guzzle = new Client(['base_uri' => env('API_URL')]);
             $description = !empty($request->description) ? $request->description : '';
+            $size = !empty($request->size) ? $request->size : 20;
+            $page = !empty($request->page) ? $request->page : 1;
 
-            $raw_response = $guzzle->get('/v1/program/1/unique-code-generates?description='.$description, [
+            $raw_response = $guzzle->get('/v1/program/1/unique-code-generates?page='. $page .'&size='. $size .'&description='.$description, [
                 'headers' => [ 'Authorization' => 'Bearer ' . $cekCookie ],
             ]);
 
             $response = $raw_response->getBody()->getContents();
             $data = json_decode($response);
             return view('page/uniq-code-generate/index', [
-                'no' => 1,
+                'no' => 1 + (($page - 1)  * 20),
                 'current'=>$data->data->current_page,
                 'last'=>$data->data->last_page,
                 'response' => $data->data->data,

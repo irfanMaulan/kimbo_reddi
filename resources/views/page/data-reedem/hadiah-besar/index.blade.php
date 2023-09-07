@@ -75,9 +75,9 @@ input[type=number] {
                                 <td>{{ $res->code ?$res->code : '' }}</td>
                                 <td>{{ $res->nik ?$res->nik : '' }}</td>
                                 <td>{{ $res->city ?$res->city : '' }}</td>
-                                <td>{{ $res->redeem_date ?  date('d-M-y h:i:s', strtotime($res->redeem_date)) : '' }}</td>
+                                <td>{{ $res->redeem_date ?  date('d-M-y H:m:s', strtotime($res->redeem_date)) : '' }}</td>
                                 <td>{{ $res->reward ? $res->reward : '' }}</td>
-                                <td>{{ $res->push_notif_date ? date('d-M-y h:i:s', strtotime($res->push_notif_date)) : '' }}</td>
+                                <td>{{ $res->push_notif_date ? date('d-M-y H:m:s', strtotime($res->push_notif_date)) : '' }}</td>
                                 <td>
                                     <form onSubmit="if(!confirm('Apakah Anda yakin untuk mengirim Notifikasi kepada user tersebut ?')){return false;}" action="{{ url('data-reedem-hadiah-besar/push_notif/'.$res->id) }}" method="post">
                                         @csrf

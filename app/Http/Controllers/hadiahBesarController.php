@@ -15,9 +15,13 @@ class hadiahBesarController extends Controller
             $start_date = !empty($request->start_date) ? $request->start_date : '';
             $end_date = !empty($request->end_date) ? $request->end_date : '';
             $search = !empty($request->search) ? $request->search : '';
+            $size = !empty($request->size) ? $request->size : 20;
+            $page = !empty($request->page) ? $request->page : 1;
             $raw_response = $guzzle->get(
                 '/v1/redeems/1?start_date='. $start_date .
                 '&end_date='. $end_date .
+                '&page='. $page .
+                '&size='. $size .
                 '&name='. $search .
                 '&msisdn='. $search.
                 '&nik='. $search.
@@ -30,7 +34,7 @@ class hadiahBesarController extends Controller
             $data = json_decode($response);
 
             return view('page/data-reedem/hadiah-besar/index', [
-                'no' => 1,
+                'no' => 1 + (($page - 1)  * 20),
                 'current'=>$data->data->current_page,
                 'last'=>$data->data->last_page,
                 'response' => $data->data->data

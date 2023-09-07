@@ -50,7 +50,8 @@ class hadiahKecilController extends Controller
             $data = json_decode($response);
 
             return view('page/data-reedem/hadiah-kecil/index', [
-                'no' => 1,
+                'no' => 1 + (($page - 1)  * 20),
+                'page'=>$data->data->page,
                 'response' => $data->data->data,
                 'current'=>$data->data->current_page,
                 'total_record'=>$data->data->total_record,
